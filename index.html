@@ -1,242 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>♡</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>♡</title>
 
-<style>
-* {
-  box-sizing: border-box;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #eaf4ff;
-  font-family: Georgia, serif;
-  color: #315a85;
-  overflow: hidden;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #dceeff, #a8d4ff, #eaf5ff);
+      font-family: "Trebuchet MS", sans-serif;
+      overflow-x: hidden;
+      padding: 20px;
+    }
 
-.card {
-  text-align: center;
-  padding: 25px;
-  width: min(92%, 390px);
-}
+    .container {
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
 
-h2 {
-  font-size: 24px;
-  font-weight: normal;
-  line-height: 1.5;
-}
+    .intro {
+      color: #285a91;
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
 
-.envelope {
-  position: relative;
-  width: 250px;
-  height: 160px;
-  margin: 65px auto 35px;
-  background: #77a9e8;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: 0 15px 35px #315a8525;
-  perspective: 800px;
-}
+    h2 {
+      color: #24588c;
+      font-size: 23px;
+      margin-bottom: 30px;
+    }
 
-/* front pocket of the envelope */
-.pocket {
-  position: absolute;
-  inset: 0;
-  background: #77a9e8;
-  clip-path: polygon(0 0, 50% 62%, 100% 0, 100% 100%, 0 100%);
-  border-radius: 4px;
-  z-index: 4;
-  pointer-events: none;
-}
+    .envelope-wrapper {
+      position: relative;
+      width: 280px;
+      height: 185px;
+      margin: 0 auto 28px;
+      cursor: pointer;
+      perspective: 1000px;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-/* closed envelope flap */
-.flap {
-  position: absolute;
-  inset: 0;
-  background: #a9cdf8;
-  clip-path: polygon(0 0, 100% 0, 50% 62%);
-  transform-origin: top;
-  transition: transform 0.55s ease;
-  z-index: 5;
-  pointer-events: none;
-}
+    .envelope {
+      position: absolute;
+      inset: 0;
+      background: #4b91d8;
+      border-radius: 5px;
+      box-shadow: 0 12px 25px rgba(35, 94, 151, 0.22);
+    }
 
-/* heart seal */
-.seal {
-  position: absolute;
-  left: 50%;
-  top: 42px;
-  transform: translateX(-50%);
-  font-size: 30px;
-  color: white;
-  z-index: 6;
-  transition: opacity 0.2s;
-  pointer-events: none;
-}
+    .envelope::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #78b8f4;
+      clip-path: polygon(0 0, 100% 0, 50% 58%);
+      z-index: 4;
+      transform-origin: top;
+      transition: transform 0.7s ease;
+      border-radius: 5px;
+    }
 
-/* hidden letter */
-.letter {
-  position: absolute;
-  width: 90%;
-  height: 140px;
-  left: 5%;
-  top: 8px;
-  padding: 18px 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  background: #ffffff;
-  border-radius: 5px;
-  box-shadow: 0 4px 15px #315a8515;
-  font-size: 17px;
-  line-height: 1.6;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(0) scale(0.9);
-  transition:
-    transform 0.7s ease,
-    opacity 0.3s ease,
-    visibility 0.3s;
-  z-index: 2;
-  pointer-events: none;
-}
+    .envelope::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #397fc2;
+      clip-path: polygon(0 100%, 0 0, 50% 55%, 100% 0, 100% 100%);
+      z-index: 3;
+      border-radius: 5px;
+    }
 
-/* open animation */
-.envelope.open .flap {
-  transform: rotateX(180deg);
-  z-index: 1;
-}
+    .letter {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 8px;
+      height: 155px;
+      padding: 22px 10px;
+      background: #ffffff;
+      border-radius: 5px;
+      color: #285a91;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      z-index: 2;
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        transform 0.8s ease,
+        opacity 0.5s ease,
+        visibility 0.5s;
+    }
 
-.envelope.open .seal {
-  opacity: 0;
-}
+    .letter p {
+      font-size: 19px;
+      line-height: 1.7;
+      margin: 8px 0;
+    }
 
-.envelope.open .letter {
-  height: 180px;
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(-115px) scale(1);
-  z-index: 7;
-}
+    .envelope-wrapper.open .letter {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-115px);
+      transition-delay: 0.45s;
+    }
 
-.hint {
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  letter-spacing: 2px;
-  color: #668bb5;
-  margin-top: 15px;
-}
+    .envelope-wrapper.open .envelope::before {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
 
-#extra {
-  opacity: 0;
-  transform: translateY(8px);
-  transition: all 0.6s ease;
-  margin-top: 30px;
-  font-size: 15px;
-}
+    .hint {
+      color: #285a91;
+      font-size: 14px;
+      min-height: 24px;
+      margin-top: 125px;
+    }
 
-#extra.show {
-  opacity: 1;
-  transform: translateY(0);
-}
+    .envelope-wrapper.open {
+      cursor: default;
+    }
 
-.sparkle {
-  position: fixed;
-  color: #6da3e5;
-  font-size: 22px;
-  animation: float 4s ease-in-out infinite;
-  pointer-events: none;
-}
+    @media (max-width: 360px) {
+      .envelope-wrapper {
+        width: 250px;
+        height: 170px;
+      }
 
-.s1 { top: 15%; left: 12%; }
-.s2 { top: 24%; right: 13%; animation-delay: 1s; }
-.s3 { bottom: 17%; left: 18%; animation-delay: 2s; }
-.s4 { bottom: 22%; right: 15%; animation-delay: 1.5s; }
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-
-@media (max-width: 360px) {
-  .envelope {
-    width: 220px;
-  }
-}
-</style>
+      .letter p {
+        font-size: 17px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="container">
 
-<div class="sparkle s1">♡</div>
-<div class="sparkle s2">✦</div>
-<div class="sparkle s3">♡</div>
-<div class="sparkle s4">✧</div>
+    <p class="intro">
+      well saw a reel on ig and got inspired but rather than sending that lemme do sometng extra lol
+    </p>
 
-<main class="card">
-  <p> well saw a reel on ig and got inspired but rather than sending that lemme do sometng extra lol </p>
+    <h2>tap the letter</h2>
 
-  <h2> tap the letter </h2>
+    <div
+      class="envelope-wrapper"
+      id="envelope"
+      role="button"
+      tabindex="0"
+      aria-label="open the letter"
+      onclick="openLetter()"
+      onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openLetter(); }"
+    >
+      <div class="envelope"></div>
 
-  <div
-    class="envelope"
-    id="envelope"
-    role="button"
-    tabindex="0"
-    aria-label="open your letter"
-  >
-    <div class="letter">
-      <span>are you today's date???</span>
-      <span>cuz u r 11/10 ;) </span>
+      <div class="letter">
+        <p>are you today's date???</p>
+        <p>cuz u r 11/10 ;)</p>
+      </div>
     </div>
 
-    <div class="pocket"></div>
-    <div class="flap"></div>
-    <div class="seal">♡</div>
+    <p class="hint" id="hint">tap the damn envelope</p>
+
+    <audio id="song" preload="auto">
+      <source src="Tadow.mp3" type="audio/mpeg">
+    </audio>
+
   </div>
 
-  <div class="hint" id="hint"> tap the damn envelope to open </div>
+  <script>
+    let opened = false;
 
-  <div id="extra">
-   
-  </div>
-</main>
+    function openLetter() {
+      if (opened) return;
 
-<script>
-const envelope = document.getElementById("envelope");
-const hint = document.getElementById("hint");
-const extra = document.getElementById("extra");
+      opened = true;
 
-function openLetter() {
-  if (envelope.classList.contains("open")) return;
+      document.getElementById("envelope").classList.add("open");
+      document.getElementById("hint").textContent = "hehee i luv u ";
 
-  envelope.classList.add("open");
-  hint.textContent = "hehee i luv u ";
+      const song = document.getElementById("song");
 
-  setTimeout(() => {
-    extra.classList.add("show");
-  }, 450);
-}
-
-envelope.addEventListener("click", openLetter);
-
-envelope.addEventListener("keydown", (event) => {
-  if (event.key === "Enter" || event.key === " ") {
-    event.preventDefault();
-    openLetter();
-  }
-});
-</script>
-
+      song.play().catch(() => {
+        // If playback is blocked, the letter still opens normally.
+      });
+    }
+  </script>
 </body>
 </html>
