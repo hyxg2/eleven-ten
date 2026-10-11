@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>♡</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eaf4ff;
+  font-family: Georgia, serif;
+  color: #315a85;
+  overflow: hidden;
+}
+
+.card {
+  text-align: center;
+  padding: 25px;
+  width: min(92%, 390px);
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: normal;
+  line-height: 1.5;
+}
+
+.envelope {
+  position: relative;
+  width: 250px;
+  height: 160px;
+  margin: 65px auto 35px;
+  background: #77a9e8;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 15px 35px #315a8525;
+  perspective: 800px;
+}
+
+/* front pocket of the envelope */
+.pocket {
+  position: absolute;
+  inset: 0;
+  background: #77a9e8;
+  clip-path: polygon(0 0, 50% 62%, 100% 0, 100% 100%, 0 100%);
+  border-radius: 4px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* closed envelope flap */
+.flap {
+  position: absolute;
+  inset: 0;
+  background: #a9cdf8;
+  clip-path: polygon(0 0, 100% 0, 50% 62%);
+  transform-origin: top;
+  transition: transform 0.55s ease;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* heart seal */
+.seal {
+  position: absolute;
+  left: 50%;
+  top: 42px;
+  transform: translateX(-50%);
+  font-size: 30px;
+  color: white;
+  z-index: 6;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+/* hidden letter */
+.letter {
+  position: absolute;
+  width: 90%;
+  height: 140px;
+  left: 5%;
+  top: 8px;
+  padding: 18px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 4px 15px #315a8515;
+  font-size: 17px;
+  line-height: 1.6;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0) scale(0.9);
+  transition:
+    transform 0.7s ease,
+    opacity 0.3s ease,
+    visibility 0.3s;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* open animation */
+.envelope.open .flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope.open .seal {
+  opacity: 0;
+}
+
+.envelope.open .letter {
+  height: 180px;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-115px) scale(1);
+  z-index: 7;
+}
+
+.hint {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #668bb5;
+  margin-top: 15px;
+}
+
+#extra {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.6s ease;
+  margin-top: 30px;
+  font-size: 15px;
+}
+
+#extra.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sparkle {
+  position: fixed;
+  color: #6da3e5;
+  font-size: 22px;
+  animation: float 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.s1 { top: 15%; left: 12%; }
+.s2 { top: 24%; right: 13%; animation-delay: 1s; }
+.s3 { bottom: 17%; left: 18%; animation-delay: 2s; }
+.s4 { bottom: 22%; right: 15%; animation-delay: 1.5s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@media (max-width: 360px) {
+  .envelope {
+    width: 220px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="sparkle s1">♡</div>
+<div class="sparkle s2">✦</div>
+<div class="sparkle s3">♡</div>
+<div class="sparkle s4">✧</div>
+
+<main class="card">
+  <p> well saw a reel on ig and got inspired and rather than sending that lemme do sometng extra lol </p>
+
+  <h2> tap the letter </h2>
+
+  <div
+    class="envelope"
+    id="envelope"
+    role="button"
+    tabindex="0"
+    aria-label="open your letter"
+  >
+    <div class="letter">
+      <span>are you today's date???</span>
+      <span>cuz u r 11/10 ;) </span>
+    </div>
+
+    <div class="pocket"></div>
+    <div class="flap"></div>
+    <div class="seal">♡</div>
+  </div>
+
+  <div class="hint" id="hint"> tap the damn envelope to open </div>
+
+  <div id="extra">
+    heheee i luv u
+  </div>
+</main>
+
+<script>
+const envelope = document.getElementById("envelope");
+const hint = document.getElementById("hint");
+const extra = document.getElementById("extra");
+
+function openLetter() {
+  if (envelope.classList.contains("open")) return;
+
+  envelope.classList.add("open");
+  hint.textContent = "a little note just for you ♡";
+
+  setTimeout(() => {
+    extra.classList.add("show");
+  }, 450);
+}
+
+envelope.addEventListener("click", openLetter);
+
+envelope.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    openLetter();
+  }
+});
+</script>
+
+</body>
+</html>
